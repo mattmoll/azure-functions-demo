@@ -21,7 +21,9 @@ namespace FunctionApp1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
 
-            log.LogInformation(requestBody);
+            var senderSerialized = JsonConvert.SerializeObject(data.sender);
+
+            log.LogInformation(senderSerialized);
 
             return new OkResult();
         }
