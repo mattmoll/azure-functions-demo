@@ -14,16 +14,25 @@ namespace FunctionApp1
         [FunctionName("GithubMonitor")]
         public static async Task<IActionResult> Run(
             [HttpTrigger(AuthorizationLevel.Function, "post", Route = null)] HttpRequest req,
+            [CosmosDB(
+                databaseName: "Contributors",
+                collectionName: "authors",
+                ConnectionStringSetting = "CosmosDBConnection")] IAsyncCollector<Sender> newAuthors,
             ILogger log)
         {
             log.LogInformation("Github Monitor processed a push.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
+            var sender = data.sender;
 
-            var senderSerialized = JsonConvert.SerializeObject(data.sender);
-
+            var senderSerialized = JsonConvert.SerializeObject(sender);
             log.LogInformation(senderSerialized);
+
+            await newAuthors.AddAsync(sender);
+            await newAuthors.FlushAsync();
+
+            log.LogInformation("Added author successfully");
 
             return new OkResult();
         }
