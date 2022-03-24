@@ -19,11 +19,11 @@ namespace FunctionApp1
             log.LogInformation("Github Monitor processed a push.");
 
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
-            //var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
+            var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
 
-            //var senderSerialized = JsonConvert.SerializeObject(data.sender);
+            var senderSerialized = JsonConvert.SerializeObject(data.sender);
 
-            log.LogInformation(requestBody);
+            log.LogInformation(senderSerialized);
 
             return new OkResult();
         }
