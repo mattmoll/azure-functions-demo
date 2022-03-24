@@ -29,10 +29,12 @@ namespace FunctionApp1
             var senderSerialized = JsonConvert.SerializeObject(sender);
             log.LogInformation(senderSerialized);
 
+            /*
             await newAuthors.AddAsync(sender);
             await newAuthors.FlushAsync();
 
             log.LogInformation("Added author successfully");
+            */
 
             return new OkResult();
         }
