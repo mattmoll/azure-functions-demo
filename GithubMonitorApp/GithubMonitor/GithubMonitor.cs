@@ -21,9 +21,9 @@ namespace FunctionApp1
             string requestBody = await new StreamReader(req.Body).ReadToEndAsync();
             var data = JsonConvert.DeserializeObject<Rootobject>(requestBody);
 
-            var senderSerialized = JsonConvert.SerializeObject(data.sender);
+            //var senderSerialized = JsonConvert.SerializeObject(data.sender);
 
-            log.LogInformation(senderSerialized);
+            log.LogInformation(data.sender.avatar_url);
 
             return new OkResult();
         }
